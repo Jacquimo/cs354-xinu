@@ -28,7 +28,7 @@ umsg32	receive(void)
 	// update message queue and the current process' message flags
 	if (!sisempty(prptr->sndq)) {
 		// message from dequed process will be handled here
-		qid16 procToHandle = sendDequeue(prptr->sndq);
+		pid32 procToHandle = sendDequeue(prptr->sndq);
 
 		prptr->prmsg = (&proctab[procToHandle])->sndmsg;
 		prptr->prhasmsg = TRUE;
