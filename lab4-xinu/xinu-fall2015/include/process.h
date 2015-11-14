@@ -55,6 +55,7 @@ struct procent {			/* Entry in the process table		*/
 	int16	prdesc[NDESC];	/* Device descriptors for process	*/
 	umsg32	sndmsg;			// Message to send that is blocking the proc
 	bool8	sndflag;		// Flag to determine if sndmsg is valid
+	qid16	sndq;			// ID of send queue for process
 };
 
 /* Marker for the top of a process stack (used to help detect overflow)	*/

@@ -14,6 +14,7 @@ Files Changed
 -------------
 include/process.h
 - added "sndmsg" and "sndflag" fields to the process table and PR_SEND process state
+- added "sndq" field to store the ID of the associated send queue
 
 include/queue.h
 - updated comment describing number of entries in the global queue table
@@ -43,6 +44,9 @@ system/unsleep.c
 
 system/sendQueue.c
 - implemented separate global queue for send queue
+
+system/initialize.c
+- created send queue for every process table entry
 
 
 

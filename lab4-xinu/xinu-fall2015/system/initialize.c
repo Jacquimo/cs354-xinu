@@ -196,6 +196,9 @@ static	void	sysinit()
 		prptr->prname[0] = NULLCH;
 		prptr->prstkbase = NULL;
 		prptr->prprio = NUM_PRIO_LVLS - 1;
+
+		// create send queue for every process table entry
+		prptr->sndq = sendNewqueue();
 	}
 
 	/* Initialize the Null process entry */	

@@ -111,3 +111,19 @@ qid16 sendNewqueue(void)
 	sendtab[squeuetail(q)].qkey  = MINKEY;
 	return q;
 }
+
+/*------------------------------------------------------------------------
+ * emptySendQueue	-	Empties the specified send queue
+ *------------------------------------------------------------------------
+*/
+qid16 emptySendQueue(
+	qid16	q				// ID of queue to empty
+	)
+{
+	if (sisbadqid(q)) {
+		return SYSERR;
+	}
+
+	sendtab[squeuehead(q)].qnext = squeuetail(q);
+	return q;
+}

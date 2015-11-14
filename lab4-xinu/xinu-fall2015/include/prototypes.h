@@ -660,3 +660,4 @@ extern pid32 sendGetfirst(qid16);
 extern pid32 sendEnqueue(pid32, qid16);
 extern pid32 sendDequeue(qid16);
 extern qid16 sendNewqueue(void);
+extern qid16 emptySendQueue(qid16);
