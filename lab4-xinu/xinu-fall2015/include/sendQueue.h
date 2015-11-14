@@ -1,44 +1,30 @@
-/* sendQueue.h - firstid, firstkey, isempty, lastkey, nonempty		*/
+/* sendQueue.h - firstid, firstkey, isempty, lastkey, nonempty */
 
-/* Queue structure declarations, constants, and inline functions	*/
+/* Sending Queue structure declarations, constants, and inline functions */
 
-/*
- * Default # of queue entries:
- * - 1 per process
- * - 2 for ready list
- * - 2 for sleep list
- * - 2 per semaphore
- * - 2 for each level of the multilevel feedback queue
-*/
-#ifndef NQENT
-#define NQENT	(NPROC + 4 + 2 * NSEM + 2 * NUM_PRIO_LVLS)
+#ifndef NSQENT
+#define NSQENT (NPROC * 3)
 #endif
 
-#define	EMPTY	(-1)		/* Null value for qnext or qprev index	*/
-#define	MAXKEY	0x7FFFFFFF	/* Max key that can be stored in queue	*/
-#define	MINKEY	0x80000000	/* Min key that can be stored in queue	*/
+typedef struct sendEntry	{		/* One per process plus two per list */
+	int32	qkey;					/* Key on which the queue is ordered */
+	qid16	qnext;					/* Index of next process or tail */
+	qid16	qprev;					/* Index of previous process or head */
+} SendEntry;
 
-struct	qentry	{		/* One per process plus two per list	*/
-	int32	qkey;		/* Key on which the queue is ordered	*/
-	qid16	qnext;		/* Index of next process or tail	*/
-	qid16	qprev;		/* Index of previous process or head	*/
-};
-
-extern	struct qentry	queuetab[];
+extern SendEntry sendtab[];
 
 /* Inline queue manipulation functions */
 
-#define	queuehead(q)	(q)
-#define	queuetail(q)	((q) + 1)
-#define	firstid(q)	(queuetab[queuehead(q)].qnext)
-#define	lastid(q)	(queuetab[queuetail(q)].qprev)
-#define	isempty(q)	(firstid(q) >= NPROC)
-#define	nonempty(q)	(firstid(q) <  NPROC)
-#define	firstkey(q)	(queuetab[firstid(q)].qkey)
-#define	lastkey(q)	(queuetab[ lastid(q)].qkey)
+#define	squeuehead(q)	(q)
+#define	squeuetail(q)	((q) + 1)
+#define	sfirstid(q)	(sendtab[squeuehead(q)].qnext)
+#define	slastid(q)	(sendtab[squeuetail(q)].qprev)
+#define	sisempty(q)	(sfirstid(q) >= NPROC)
+#define	snonempty(q)	(sfirstid(q) <  NPROC)
+#define	sfirstkey(q)	(sendtab[sfirstid(q)].qkey)
+#define	slastkey(q)	(sendtab[slastid(q)].qkey)
 
 /* Inline to check queue id assumes interrupts are disabled */
 
-#define	isbadqid(x)	(((int32)(x) < 0) || (int32)(x) >= NQENT-1)
-
-
+#define	sisbadqid(x)	(((int32)(x) < 0) || (int32)(x) >= NSQENT-1)

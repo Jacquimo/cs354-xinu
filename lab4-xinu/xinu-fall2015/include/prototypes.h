@@ -652,3 +652,11 @@ extern	syscall	yield(void);
 #define	ntohs(x)   ( ( 0xff & ((x)>>8) ) | ( (0xff & (x)) << 8 ) )
 #define	ntohl(x)   (  (((x)>>24) & 0x000000ff) | (((x)>> 8) & 0x0000ff00) | \
 		      (((x)<< 8) & 0x00ff0000) | (((x)<<24) & 0xff000000) )
+
+
+// in file sendQueue.c
+extern pid32 sendGetitem(pid32);
+extern pid32 sendGetfirst(qid16);
+extern pid32 sendEnqueue(pid32, qid16);
+extern pid32 sendDequeue(qid16);
+extern qid16 sendNewqueue(void);

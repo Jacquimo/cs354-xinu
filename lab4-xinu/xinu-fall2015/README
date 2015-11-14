@@ -18,6 +18,17 @@ include/process.h
 include/queue.h
 - updated comment describing number of entries in the global queue table
 
+include/sendQueue.h
+- implemented separate global queue for send queue
+
+include/xinu.h
+- added include for sendQueue.h
+
+include/prototypes.h
+- added method prototypes for send queue operations
+
+-------------------------------------------------------------------------------
+
 system/sendbt.c
 - created and implemented functionality as described in handout
 
@@ -29,6 +40,9 @@ system/initialize.c
 
 system/unsleep.c
 - now considers PR_SEND as a valid proc state for a proc to be on sleep queue
+
+system/sendQueue.c
+- implemented separate global queue for send queue
 
 
 
