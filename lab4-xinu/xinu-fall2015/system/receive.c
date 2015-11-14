@@ -29,9 +29,15 @@ umsg32	receive(void)
 	if (!sisempty(prptr->sndq)) {
 		// message from dequed process will be handled here
 		qid16 procToHandle = sendDequeue(prptr->sndq);
-		
+
 		prptr->prmsg = (&proctab[procToHandle])->sndmsg;
 		prptr->prhasmsg = TRUE;
+
+		// receiving process updates sending process to ensure queue can't
+		// be potentially jumped by infinite wait senders
+		prptr = &proctab[procToHandle];
+		prptr->sndmsg = NULL;
+		prptr->sndflag = FALSE;
 		unsleep(procToHandle);
 	}
 

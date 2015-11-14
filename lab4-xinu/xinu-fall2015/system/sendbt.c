@@ -20,38 +20,12 @@ syscall	sendbt(
 	// Perform error checking
 	mask = disable();
 	prptr = &proctab[pid];
+	if (isbadpid(pid) || maxwait < 0 || (prptr->prstate == PR_FREE)) {
+		restore(mask);
+		return SYSERR;
+	}
 
-	do {
-		if (isbadpid(pid) || maxwait < 0 || (prptr->prstate == PR_FREE)) {
-			restore(mask);
-			return SYSERR;
-		}
-
-		// Receiving process already has a message
-		if (prptr->prhasmsg == TRUE) {
-			// insert into sleep queue if maxwait != 0
-			/*if (maxwait > 0) {
-				if (insertd(currpid, sleepq, maxwait) == SYSERR) {
-					restore(mask);
-					return SYSERR;
-				}
-			}*/
-
-			// if wait maxwait is 0, sleep process for maximum amount of time
-			if (insertd(currpid, sleepq, maxwait > 0 ? maxwait : MAXKEY) == SYSERR) {
-				restore(mask);
-				return SYSERR;
-			}		
-
-			upgradeProcPrio();
-			(&proctab[currpid])->prstate = PR_SEND;
-			resched();
-		}
-
-	// put to sleep again if infinitely waiting and timer expires
-	} while (maxwait == 0 && prptr->prhasmsg == TRUE);
-
-	// Either there is no other message to handle or the timer expired
+	// there is no message to be queued behind, so leave the message
 	if (prptr->prhasmsg == FALSE) {
 		prptr->prmsg = msg;		// Deliver message
 		prptr->prhasmsg = TRUE;	// Indicate message waiting
@@ -63,14 +37,32 @@ syscall	sendbt(
 			unsleep(pid);
 			ready(pid);
 		}
+	} else {
+		do {
+			// need repeated error checking for infinite wait senders
+			if (isbadpid(pid) || maxwait < 0 || (prptr->prstate == PR_FREE)) {
+				restore(mask);
+				return SYSERR;
+			}
+
+			// if wait maxwait is 0, sleep process for maximum amount of time
+			if (insertd(currpid, sleepq, maxwait > 0 ? maxwait : MAXKEY) == SYSERR) {
+				restore(mask);
+				return SYSERR;
+			}		
+
+			upgradeProcPrio();
+			(&proctab[currpid])->prstate = PR_SEND;
+			resched();
+
+		// put to sleep again if infinitely waiting and timer expires
+		} while (maxwait == 0 && (&proctab[currpid])->sndflag == TRUE);
 	}
 
-	// update current process' send values
-	prptr = &proctab[currpid];
-	prptr->sndmsg = NULL;
-	prptr->sndflag = FALSE;
+	// Either the message has been received or the timer has expired at this point
+	// the sending flags of this process are updated by the receiving process
 
-	restore(mask);				// Restore interrupts
+	restore(mask);
 	return OK;
 }
 
