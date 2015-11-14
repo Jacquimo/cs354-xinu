@@ -51,6 +51,9 @@ system/initialize.c
 system/kill.c
 - handle process in send state and clear send queue for process
 
+system/receive.c
+- handled updating the sending queue of the process
+
 
 
 	

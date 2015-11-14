@@ -52,7 +52,6 @@ syscall	sendbt(
 	} while (maxwait == 0 && prptr->prhasmsg == TRUE);
 
 	// Either there is no other message to handle or the timer expired
-
 	if (prptr->prhasmsg == FALSE) {
 		prptr->prmsg = msg;		// Deliver message
 		prptr->prhasmsg = TRUE;	// Indicate message waiting
