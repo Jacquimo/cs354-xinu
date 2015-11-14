@@ -26,7 +26,7 @@ include/xinu.h
 - added include for sendQueue.h
 
 include/prototypes.h
-- added method prototypes for send queue operations
+- added method prototypes for send queue operations and the sendbt() method
 
 -------------------------------------------------------------------------------
 

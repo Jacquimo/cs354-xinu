@@ -661,3 +661,6 @@ extern pid32 sendEnqueue(pid32, qid16);
 extern pid32 sendDequeue(qid16);
 extern qid16 sendNewqueue(void);
 extern qid16 emptySendQueue(qid16);
+
+// in file sendbt.c
+extern syscall sendbt(pid32, umsg32, int32);
