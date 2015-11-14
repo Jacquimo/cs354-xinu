@@ -1,3 +1,6 @@
 *.o
 *.bin
+*/compile/xinu
+*/xinu.map
+*/xinu.xbin
 
