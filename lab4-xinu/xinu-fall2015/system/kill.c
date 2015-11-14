@@ -39,9 +39,12 @@ syscall	kill(
 		prptr->prstate = PR_FREE;	/* Suicide */
 		resched();
 
+	case PR_SEND:
+		sendGetitem(pid); // remove item from sending queue
+		// Fall through
+
 	case PR_SLEEP:
 	case PR_RECTIM:
-	case PR_SEND:
 		unsleep(pid);
 		prptr->prstate = PR_FREE;
 		break;
