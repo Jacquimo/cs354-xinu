@@ -49,7 +49,7 @@ system/initialize.c
 - created send queue for every process table entry
 
 system/kill.c
-- handle process in send state and clear send queue for process
+- handle process in send state and empty send queue for process (so that blocked processes are then allowed to run)
 
 system/receive.c
 - handled updating the sending queue of the process

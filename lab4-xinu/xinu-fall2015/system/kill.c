@@ -31,8 +31,16 @@ syscall	kill(
 	}
 	freestk(prptr->prstkbase, prptr->prstklen);
 
-	// empty send queue of process
-	emptySendQueue(prptr->sndq);
+	// All processes in send queue are removed from sleep queue and it is
+	// considered that all their messages failed to send.
+	qid16 sq = prptr->sndq;
+	while (!sisempty(sq)) {
+		pid32 proc = sendDequeue(sq);
+		struct procent* p = &proctab[proc];
+		p->sndmsg = NULL;
+		p->sndflag = FALSE;
+		unsleep(proc);
+	}
 
 	switch (prptr->prstate) {
 	case PR_CURR:
