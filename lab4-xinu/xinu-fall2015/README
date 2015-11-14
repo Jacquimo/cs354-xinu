@@ -54,6 +54,9 @@ system/kill.c
 system/receive.c
 - handled updating the sending queue of the process
 
+system/recvtime.c
+- handled updating the sending queue of the process, same as in receive
+
 
 
 	

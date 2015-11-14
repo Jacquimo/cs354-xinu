@@ -42,6 +42,23 @@ umsg32	recvtime(
 	} else {
 		msg = TIMEOUT;
 	}
+
+	// update message queue and the current process' message flags
+	if (!sisempty(prptr->sndq)) {
+		// message from dequed process will be handled here
+		pid32 procToHandle = sendDequeue(prptr->sndq);
+
+		prptr->prmsg = (&proctab[procToHandle])->sndmsg;
+		prptr->prhasmsg = TRUE;
+
+		// receiving process updates sending process to ensure queue can't
+		// be potentially jumped by infinite wait senders
+		prptr = &proctab[procToHandle];
+		prptr->sndmsg = NULL;
+		prptr->sndflag = FALSE;
+		unsleep(procToHandle);
+	}
+	
 	restore(mask);
 	return msg;
 }
