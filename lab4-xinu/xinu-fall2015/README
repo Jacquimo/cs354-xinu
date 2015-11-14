@@ -1,0 +1,32 @@
+Gray Houston
+11/13/15
+CS 354
+
+This is the Xinu implementation for lab 4 that implements timed blocked
+message sending and asynchronous message receiving. I am using my lab 3
+submission as my Xinu base since the scheduler is much better than the
+default and the lab 3 grading indicated there were no errors in my scheduler.
+
+I am using 2 late days for this submission.
+
+
+Files Changed
+-------------
+include/process.h
+- added "sndmsg" and "sndflag" fields to the process table and PR_SEND process state
+
+include/queue.h
+- updated comment describing number of entries in the global queue table
+
+system/sendbt.c
+- created and implemented functionality as described in handout
+
+system/create.c
+- intialized "sndmsg" and "sndflag" fields to NULL and FALSE respectively
+
+system/initialize.c
+- intialized "sndmsg" and "sndflag" fields for null process to NULL and FALSE respectively
+
+
+
+	

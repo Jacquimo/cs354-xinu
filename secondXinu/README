@@ -1,0 +1,71 @@
+Gray Houston
+10/22/15
+CS 354
+
+This is the Xinu implementation for lab 3 that implements the Solaris
+Time Share scheduler.
+
+
+Files Changed
+-------------
+ts_disptb.h
+- created and implemented struct
+- added macros that all for changing of process priority and getting the time slice associated withthe process' priority
+
+xinu.h
+- added include statement for ts_disptb.h
+
+initialize.c
+- declaration & initialization for tsdtab (of length NUM_PRIO_LVLS)
+- initialize every queue in the array multiqueue
+- null process is initialized with the "maximum" priority 
+(NUM_PRIO_LVLS - 1) so that it receives the smallest time slice
+
+resched.c
+- the updated quantum for the new process is now retrieved from tsdtab
+- uses multilevel feedback queue instead of readylist
+- the null process is never added to the multilevel queue
+	- it is only every scheduled if all NUM_PRIO_LVLS queues are empty and there are no ready processes
+
+clkhandler.c
+- changed preempt behavior to downgrade priority when quantum is depleted
+
+sleep.c
+- upgrade process' priority when sleepms is called because CPU cycles have been yielded
+
+yield.c
+- upgrade process priority when yield is called
+
+suspend.c
+- upgrade process priority on success because it's a blocking system call
+
+wait.c
+- upgrade process priority on success because it's a blocking system call
+
+receive.c
+- upgrade process priority because of blocking I/O system call
+
+recvtime.c
+- upgrade process priority because of blocking I/O system call.
+
+clkinit.c
+- changed use of default QUANTUM macro to custom macro that uses TS Dispatch Table
+- currently, the QUANTUM macro is never used; my own macro is used
+
+queue.h
+- changed the default number of entries in the global table of queues so there is enough room for multilevel queue scheduler
+
+ready.c
+- declared multilevel queue as array of queues of length NUM_PRIO_LVLS
+- in ready() method, insert process into the queue associated with priority
+
+create.c
+- changed functionality so that all created processes have a priority of DEFAULT_PRIO (which has a value of 29)
+
+kprintf.c
+- disabled interupts during the print (so that the prints from tests aren't interrupted)
+
+multilevelfbq.h
+- header file containing an extern definition of the multiqueue data structure
+	- the multiqueue is simply an array of process queues where the index corresponds to the priority level of the queue
+	
