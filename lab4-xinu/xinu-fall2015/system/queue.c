@@ -7,7 +7,7 @@ struct qentry	queuetab[NQENT];	/* Table of process queues	*/
 /*------------------------------------------------------------------------
  *  enqueue  -  Insert a process at the tail of a queue
  *------------------------------------------------------------------------
- */
+ */ 
 pid32	enqueue(
 	  pid32		pid,		/* ID of process to insert	*/
 	  qid16		q		/* ID of queue to use		*/
