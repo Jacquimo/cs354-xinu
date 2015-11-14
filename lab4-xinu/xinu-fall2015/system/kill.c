@@ -31,6 +31,9 @@ syscall	kill(
 	}
 	freestk(prptr->prstkbase, prptr->prstklen);
 
+	// empty send queue of process
+	emptySendQueue(prptr->sndq);
+
 	switch (prptr->prstate) {
 	case PR_CURR:
 		prptr->prstate = PR_FREE;	/* Suicide */
@@ -38,6 +41,7 @@ syscall	kill(
 
 	case PR_SLEEP:
 	case PR_RECTIM:
+	case PR_SEND:
 		unsleep(pid);
 		prptr->prstate = PR_FREE;
 		break;

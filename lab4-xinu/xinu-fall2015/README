@@ -48,6 +48,9 @@ system/sendQueue.c
 system/initialize.c
 - created send queue for every process table entry
 
+system/kill.c
+- handle process in send state and clear send queue for process
+
 
 
 	
