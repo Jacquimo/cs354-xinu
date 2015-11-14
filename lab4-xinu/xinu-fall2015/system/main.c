@@ -5,6 +5,7 @@
 
 extern void cpuintensive();
 extern void iointensive();
+extern void sendTest(pid32, umsg32, int32);
 
 process	main(void)
 {
@@ -15,8 +16,6 @@ process	main(void)
 	kprintf("\nI will create a second XINU app that runs shell() in shell/shell.c as an example.\n");
 	kprintf("\nYou can do something else, or do nothing; it's completely up to you.\n");
 	kprintf("\n...creating a shell\n");
-
-
 
 
 	// Test: All CPU-Intensive
@@ -68,6 +67,23 @@ process	main(void)
 
 	sleepms(6000);
 	*/
+
+
+	int first = create(sendTest, 4096, 1, "first", 3, currpid, "first message", 0);
+	int sec = create(sendTest, 4096, 1, "sec", 3, currpid, "second message", 0);
+	int third = create(sendTest, 4096, 1, "third", 3, currpid, "third message", 0);
+
+	resume(first);
+	resume(sec);
+	resume(third);
+
+	sleepms(1000);
+
+	kprintf("first: \"%s\"\n", receive());
+	kprintf("sec: \"%s\"\n", receive());
+	kprintf("third: \"%s\"\n", receive());
+
+	sleepms(1000);
 
 	recvclr();
 	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));
