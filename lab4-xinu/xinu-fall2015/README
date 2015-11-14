@@ -27,6 +27,9 @@ system/create.c
 system/initialize.c
 - intialized "sndmsg" and "sndflag" fields for null process to NULL and FALSE respectively
 
+system/unsleep.c
+- now considers PR_SEND as a valid proc state for a proc to be on sleep queue
+
 
 
 	

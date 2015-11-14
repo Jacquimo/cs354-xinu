@@ -20,25 +20,36 @@ syscall	sendbt(
 	// Perform error checking
 	mask = disable();
 	prptr = &proctab[pid];
-	if (isbadpid(pid) || maxwait < 0 || (prptr->prstate == PR_FREE)) {
-		restore(mask);
-		return SYSERR;
-	}
 
-	// Receiving process already has a message
-	if (prptr->prhasmsg == TRUE) {
-		// insert into sleep queue if maxwait != 0
-		if (maxwait > 0) {
-			if (insertd(currpid, sleepq, maxwait) == SYSERR) {
-				restore(mask);
-				return SYSERR;
-			}
+	do {
+		if (isbadpid(pid) || maxwait < 0 || (prptr->prstate == PR_FREE)) {
+			restore(mask);
+			return SYSERR;
 		}
 
-		upgradeProcPrio();
-		(&proctab[currpid])->prstate = PR_SEND;
-		resched();
-	}
+		// Receiving process already has a message
+		if (prptr->prhasmsg == TRUE) {
+			// insert into sleep queue if maxwait != 0
+			/*if (maxwait > 0) {
+				if (insertd(currpid, sleepq, maxwait) == SYSERR) {
+					restore(mask);
+					return SYSERR;
+				}
+			}*/
+
+			// if wait maxwait is 0, sleep process for maximum amount of time
+			if (insertd(currpid, sleepq, maxwait > 0 ? maxwait : MAXKEY) == SYSERR) {
+				restore(mask);
+				return SYSERR;
+			}		
+
+			upgradeProcPrio();
+			(&proctab[currpid])->prstate = PR_SEND;
+			resched();
+		}
+
+	// put to sleep again if infinitely waiting and timer expires
+	} while (maxwait == 0 && prptr->prhasmsg == TRUE);
 
 	// Either there is no other message to handle or the timer expired
 
