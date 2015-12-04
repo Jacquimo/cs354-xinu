@@ -43,6 +43,17 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 	preempt = QUANTUM;		/* Reset time slice for process	*/
 	ctxsw(&ptold->prstkptr, &ptnew->prstkptr);
 
+
+	// Edit to Code Starts -----------------
+
+	// executes callback function if it exists
+	if (ptold->prhasmsg && ptold->cbfun != NULL) {
+		(ptold->cbfun)();
+		ptold->prhasmsg = FALSE;
+	}
+
+	// Edit to Code Ends   -----------------
+
 	/* Old process returns here when resumed */
 
 	return;

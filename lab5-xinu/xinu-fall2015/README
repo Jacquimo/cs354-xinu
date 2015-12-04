@@ -7,5 +7,13 @@ This is the XINU implementation for lab 5. It uses the standard implementation f
 
 Files Changed
 -------------
+process.h
+- added callback function pointer to the process table
+
+resched.c
+- added functionality so that callback function is executed if it exists immediately after process is context switched back on to processor
+
+registercb.c
+- created the system call like in TA notes; it's super simple
 
 
