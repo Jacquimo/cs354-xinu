@@ -5,7 +5,6 @@
 
 extern void cpuintensive();
 extern void iointensive();
-extern void sendTest(pid32, umsg32, int32);
 
 process	main(void)
 {
@@ -69,21 +68,28 @@ process	main(void)
 	*/
 
 
-	int first = create(sendTest, 4096, 1, "first", 3, currpid, "first message", 0);
-	int sec = create(sendTest, 4096, 1, "sec", 3, currpid, "second message", 0);
-	int third = create(sendTest, 4096, 1, "third", 3, currpid, "third message", 0);
+	// Lab 5
+
+	int first = create(sendbt, 4096, 1, "first", 3, currpid, 1, 1500, NULL);
+	int sec = create(sendbt, 4096, 1, "sec", 3, currpid, 2, 1500, NULL);
+	int third = create(sendbt, 4096, 1, "third", 3, currpid, 3, 1500, NULL);
 
 	resume(first);
 	resume(sec);
 	resume(third);
 
-	sleepms(1000);
+	sleepms(400);
 
-	kprintf("first: \"%s\"\n", receive());
-	kprintf("sec: \"%s\"\n", receive());
-	kprintf("third: \"%s\"\n", receive());
+	struct procent* prptr = &proctab[currpid];
 
-	sleepms(1000);
+	kprintf("first: \"%d\"\n", recvtime(200));
+	kprintf("sec: \"%d\"\n", receive());
+
+	kprintf("send queue is empty: \"%s\"\n", sisempty(prptr->sndq) ? "yes" : "no");
+
+	kprintf("third: \"%d\"\n", receive());
+
+	sleepms(2500);
 
 	recvclr();
 	resume(create(shell, 8192, 50, "shell", 1, CONSOLE));

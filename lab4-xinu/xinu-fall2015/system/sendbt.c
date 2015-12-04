@@ -17,6 +17,10 @@ syscall	sendbt(
 	intmask	mask;				// Saved interrupt mask
 	struct	procent *prptr;		// Ptr to process' table entry
 
+	prptr = &proctab[currpid];
+	prptr->sndmsg = msg;
+	prptr->sndflag = TRUE;
+
 	// Perform error checking
 	mask = disable();
 	prptr = &proctab[pid];
@@ -51,6 +55,7 @@ syscall	sendbt(
 				return SYSERR;
 			}		
 
+			sendEnqueue(currpid, prptr->sndq);
 			upgradeProcPrio();
 			(&proctab[currpid])->prstate = PR_SEND;
 			resched();
@@ -61,6 +66,14 @@ syscall	sendbt(
 
 	// Either the message has been received or the timer has expired
 	// the sending flags of this process are updated by the receiving process
+
+	// check if process was removed from sleep because maxwait was exceeded
+	prptr = &proctab[currpid];
+	if (prptr->sndflag == TRUE) {
+		sendGetitem(currpid);
+	}
+	prptr->sndflag = FALSE;
+	prptr->sndmsg = NULL;
 
 	restore(mask);
 	return OK;
