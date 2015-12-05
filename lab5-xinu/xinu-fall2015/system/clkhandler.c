@@ -27,15 +27,30 @@ void	clkhandler()
 	
 	// Handle processes waiting on an alarm by decrementing the front element
 	if (!aisempty(alarmq)) {
-		if ((--aqueuetab[afirstid(alarmq)].qkey) <= 0 ) {
-			// Verify that the callback funct. is still valid
-			if (proctab[currpid].sighandler == MYSIGALRM) {
-				(proctab[currpid].cbfun)();
-			}
+		if ((--aqueuetab[afirstid(alarmq)].qkey) == 0 ) {
+			struct procent *prptr = &proctab[afirstid(alarmq)];
 
-			struct procent *prptr = &proctab[currpid];
-			prptr->prstate = PR_READY;
-			resched();
+			// Verify that the callback funct. is still valid
+			if (prptr->sighandler == MYSIGALRM && prptr->cbfun != NULL) {
+				
+				kprintf("Time remaining in alarm = %d\tSignal Handler = %d\tPID = %d\n",
+					aqueuetab[afirstid(alarmq)].qkey, prptr->sighandler, afirstid(alarmq));
+				
+				// execute callback
+				(prptr->cbfun)();
+				prptr->cbfun = NULL;
+
+				// if the process is asleep, take it out of the sleep queue
+				if (prptr->prstate == PR_SLEEP)
+					unsleep(afirstid(alarmq));
+
+				// insert into ready list and reschedule
+				if (prptr->prstate != PR_READY)
+					ready(currpid);
+				resched();
+
+				adequeue(afirstid(alarmq));
+			}
 		}
 	}
 	// Edits to code here --------------------------

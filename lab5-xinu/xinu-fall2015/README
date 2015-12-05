@@ -61,4 +61,9 @@ clkhandler.c
 - updates the amount of time each process has spent on the CPU
 - added execution of CPU usage signal handler
 
+main.c
+- testing my implementation
+
+kprintf.c
+- disabled interupts during function so that debugging output wouldn't be scrambled
 
