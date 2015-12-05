@@ -86,7 +86,8 @@ void	nulluser()
 	/*  something to run when no other process is ready to execute)	*/
 
 	while (TRUE) {
-		;		/* Do nothing */
+		//kprintf("doing nothing\n");		/* Do nothing */
+		;
 	}
 
 }
@@ -133,6 +134,11 @@ static	void	sysinit()
 		prptr->prname[0] = NULLCH;
 		prptr->prstkbase = NULL;
 		prptr->prprio = 0;
+
+		// Edits made to code here ---------------
+		prptr->cbfun = NULL;
+		prptr->sighandler = 0;
+		// Edits made to code here ---------------
 	}
 
 	/* Initialize the Null process entry */	
@@ -145,6 +151,13 @@ static	void	sysinit()
 	prptr->prstklen = NULLSTK;
 	prptr->prstkptr = 0;
 	currpid = NULLPROC;
+
+
+	// Edits made to code here ---------------
+	prptr->cbfun = NULL;
+	prptr->sighandler = 0;
+	// Edits made to code here ---------------
+
 	
 	/* Initialize semaphores */
 

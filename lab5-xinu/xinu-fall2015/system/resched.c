@@ -45,15 +45,15 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 
 
 	// Edit to Code Starts -----------------
-
 	// executes callback function for message receive if it exists
+	
 	if (ptold->sighandler == MYSIGRECV && ptold->prhasmsg
 		&& ptold->cbfun != NULL) {
 
 		(ptold->cbfun)();
 		ptold->prhasmsg = FALSE;
 	}
-
+	
 	// Edit to Code Ends   -----------------
 
 	/* Old process returns here when resumed */

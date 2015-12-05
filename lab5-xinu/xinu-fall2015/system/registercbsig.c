@@ -4,6 +4,12 @@
 
 syscall registercbsig(uint16 asig, int (*func) (void), uint32 optarg) {
 	intmask mask = disable();
+
+	if (func == NULL) {
+		restore(mask);
+		return SYSERR;
+	}
+
 	int ret = OK;
 	struct procent *prptr = &proctab[currpid];
 

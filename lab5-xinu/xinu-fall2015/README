@@ -14,10 +14,13 @@ mysignal.h
 - created this file to hold constant signal values
 
 xinu.h
-- added include for mysignal.h header file
+- added include for mysignal.h and alarmQueue.h header files
 
 prototypes.h
 - added function prototypes for registercb and registercbsig functions
+
+alarmQueue.h
+- 
 
 resched.c
 - added functionality so that the proper callback function is executed for the correct signal if it exists immediately after process is context switched back on to the processor
@@ -30,5 +33,9 @@ registercbsig.c
 
 create.c
 - initialize added process table entries in the create function
+
+initialize.c
+- added print statement to ready loop of null process
+- all entries in the process table, including null process, are initialized to have a null callback function and 0 signal handler value
 
 
