@@ -23,6 +23,7 @@ syscall registercbsig(uint16 asig, int (*func) (void), uint32 optarg) {
 
 		case MYSIGALRM:
 			prptr->sighandler = MYSIGALRM;
+			ainsertd(currpid, alarmq, optarg);
 			break;
 
 		case MYSIGXCPU:

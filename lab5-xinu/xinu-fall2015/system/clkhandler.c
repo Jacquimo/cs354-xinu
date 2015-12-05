@@ -35,6 +35,25 @@ void	clkhandler()
 		}
 	}
 
+
+	// Edits to the code here -----------------------
+	// Handle processes waiting on an alarm by decrementing the front element
+	if (!aisempty(alarmq)) {
+
+		if ((--aqueuetab[afirstid(alarmq)].qkey) <= 0 ) {
+			// Verify that the callback funct. is still valid
+			if (proctab[currpid].sighandler == MYSIGALRM) {
+				(proctab[currpid].cbfun)();
+			}
+
+			struct procent *prptr = &proctab[currpid];
+			prptr->prstate = PR_READY;
+			resched();
+		}
+	}
+	// Edits to the code here -----------------------
+
+
 	/* Decrement the preemption counter, and reschedule when the */
 	/*   remaining time reaches zero			     */
 

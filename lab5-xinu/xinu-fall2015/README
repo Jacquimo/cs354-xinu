@@ -22,6 +22,9 @@ prototypes.h
 alarmQueue.h
 - made separate queue for alarm signal handlers; based on the normal queue operations
 
+clock.h
+- added extern reference to alarmq (the variable for the alarm queue)
+
 resched.c
 - added functionality so that the proper callback function is executed for the correct signal if it exists immediately after process is context switched back on to the processor
 
@@ -45,6 +48,9 @@ ainsertd.c
 - added functionality to time delay insert items into the alarm queue
 
 clkinit.c
-- 
+- initialized the alarm queue right after the sleep queue
+
+clkhandler.c
+- update the alarm queue every millisecond when the clock handler is invoked
 
 

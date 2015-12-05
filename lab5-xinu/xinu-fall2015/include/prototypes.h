@@ -10,6 +10,7 @@ extern pid32 agetfirst(qid16);
 extern pid32 adequeue(qid16);
 extern pid32 agetlast(qid16);
 extern qid16 anewqueue(void);
+extern status ainsertd(pid32, qid16, int32);
 
 // Changes made to file end her    -------------------
 
