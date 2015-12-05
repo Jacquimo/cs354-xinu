@@ -46,8 +46,10 @@ void	resched(void)		/* Assumes interrupts are disabled	*/
 
 	// Edit to Code Starts -----------------
 
-	// executes callback function if it exists
-	if (ptold->prhasmsg && ptold->cbfun != NULL) {
+	// executes callback function for message receive if it exists
+	if (ptold->sighandler == MYSIGRECV && ptold->prhasmsg
+		&& ptold->cbfun != NULL) {
+
 		(ptold->cbfun)();
 		ptold->prhasmsg = FALSE;
 	}

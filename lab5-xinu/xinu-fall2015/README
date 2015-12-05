@@ -8,7 +8,7 @@ This is the XINU implementation for lab 5. It uses the standard implementation f
 Files Changed
 -------------
 process.h
-- added callback function pointer to the process table
+- added callback function pointer and signal variable to the process table
 
 mysignal.h
 - created this file to hold constant signal values
@@ -20,12 +20,15 @@ prototypes.h
 - added function prototypes for registercb and registercbsig functions
 
 resched.c
-- added functionality so that callback function is executed if it exists immediately after process is context switched back on to processor
+- added functionality so that the proper callback function is executed for the correct signal if it exists immediately after process is context switched back on to the processor
 
 registercb.c
 - created the system call like in TA notes; it's super simple
 
 registercbsig.c
 - created this system call that implements the signal handling functionality as described in the lab question 1 specification
+
+create.c
+- initialize added process table entries in the create function
 
 

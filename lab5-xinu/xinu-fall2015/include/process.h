@@ -55,6 +55,7 @@ struct procent {		/* Entry in the process table		*/
 
 	// Edit to Code Starts -----------------
 	int (*cbfun)(void);	// pointer to callback function
+	uint16 sighandler;	// the type of signal which the callback function corresponds to
 	// Edit to Code Ends   -----------------
 };
 

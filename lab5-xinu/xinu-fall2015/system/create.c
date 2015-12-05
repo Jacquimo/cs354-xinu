@@ -53,6 +53,13 @@ pid32	create(
 	prptr->prparent = (pid32)getpid();
 	prptr->prhasmsg = FALSE;
 
+
+	// Edits to code start here ------------------
+	prptr->cbfun = NULL;
+	prptr->sighandler = 0;
+	// Edits to code end here   ------------------
+
+
 	/* Set up stdin, stdout, and stderr descriptors for the shell	*/
 	prptr->prdesc[0] = CONSOLE;
 	prptr->prdesc[1] = CONSOLE;

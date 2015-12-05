@@ -5,17 +5,27 @@
 syscall registercbsig(uint16 asig, int (*func) (void), uint32 optarg) {
 	intmask mask = disable();
 	int ret = OK;
+	struct procent *prptr = &proctab[currpid];
 
+	prptr->cbfun = func;
 	switch(asig) {
 
+		// I was told by a TA that there could only be 1 callback function per process
 		case MYSIGRECV:
-			proctab[currpid].cbfun = func;
+			prptr->sighandler = MYSIGRECV;
 			break;
 
 		case MYSIGALRM:
+			prptr->sighandler = MYSIGALRM;
+			break;
+
+		case MYSIGXCPU:
+			prptr->sighandler = MYSIGXCPU;
 			break;
 
 		default:
+			prptr->cbfun = NULL;
+			prptr->sighandler = 0;
 			ret = SYSERR;
 	}
 
