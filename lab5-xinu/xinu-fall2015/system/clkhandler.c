@@ -15,7 +15,7 @@ void	clkhandler()
 	// Monitor the amount of CPU usage by a process
 	struct procent *prptr = &proctab[currpid];
 	(prptr->prcpuused)++;
-
+	
 	if (prptr->sighandler == MYSIGXCPU && prptr->cbfun != NULL 
 		&& prptr->prcpuused >= prptr->usageLimit) {
 
@@ -24,8 +24,9 @@ void	clkhandler()
 		prptr->cbfun = NULL;
 		prptr->usageLimit = 0;
 	}
+	
 	// Handle processes waiting on an alarm by decrementing the front element
-	else if (!aisempty(alarmq)) {
+	if (!aisempty(alarmq)) {
 		if ((--aqueuetab[afirstid(alarmq)].qkey) <= 0 ) {
 			// Verify that the callback funct. is still valid
 			if (proctab[currpid].sighandler == MYSIGALRM) {

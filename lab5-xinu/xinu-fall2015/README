@@ -32,6 +32,8 @@ resched.c
 
 registercb.c
 - created the system call like in TA notes; it's super simple
+- if it's the alarm signal, the process is placed into the alarm queue
+- if it's the CPU usage signal, the appropiate table fields are initialized
 
 registercbsig.c
 - created this system call that implements the signal handling functionality as described in the lab question 1 specification
