@@ -17,7 +17,7 @@ xinu.h
 - added include for mysignal.h and alarmQueue.h header files
 
 prototypes.h
-- added function prototypes for registercb and registercbsig functions
+- added function prototypes for the registercb and registercbsig functions and all of the alarm queue functions
 
 alarmQueue.h
 - made separate queue for alarm signal handlers; based on the normal queue operations
@@ -43,5 +43,8 @@ alarmQueue.c
 
 ainsertd.c
 - added functionality to time delay insert items into the alarm queue
+
+clkinit.c
+- 
 
 

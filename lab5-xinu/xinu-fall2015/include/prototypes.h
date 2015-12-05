@@ -4,6 +4,13 @@
 extern syscall registercb(int (*)(void));
 extern syscall registercbsig(uint16, int (*)(void), uint32);
 
+extern pid32 aenqueue(pid32, qid16);
+extern pid32 agetitem(pid32);
+extern pid32 agetfirst(qid16);
+extern pid32 adequeue(qid16);
+extern pid32 agetlast(qid16);
+extern qid16 anewqueue(void);
+
 // Changes made to file end her    -------------------
 
 

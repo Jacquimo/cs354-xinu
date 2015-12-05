@@ -110,8 +110,7 @@ pid32	agetlast(
  *  anewqueue  -  Allocate and initialize a queue in the global queue table
  *------------------------------------------------------------------------
  */
-qid16	anewqueue(void)
-{
+qid16	anewqueue(void) {
 	static qid16	nextqid=NPROC;	/* Next list in aqueuetab to use	*/
 	qid16		q;		/* ID of allocated queue 	*/
 
