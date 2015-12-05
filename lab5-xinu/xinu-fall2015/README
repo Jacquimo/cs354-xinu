@@ -10,6 +10,12 @@ Files Changed
 process.h
 - added callback function pointer to the process table
 
+mysignal.h
+- created this file to hold constant signal values
+
+xinu.h
+- added include for mysignal.h header file
+
 resched.c
 - added functionality so that callback function is executed if it exists immediately after process is context switched back on to processor
 

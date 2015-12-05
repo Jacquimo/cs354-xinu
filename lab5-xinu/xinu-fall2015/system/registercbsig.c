@@ -2,6 +2,8 @@
 
 syscall registercbsig(uint16 asig, int (* func) (void), uint32 optarg) {
 
+
+	return OK;
 }
 
 

@@ -40,3 +40,6 @@
 #include <multiboot.h>
 #include <stdio.h>
 #include <string.h>
+
+// added this include
+#include <mysignal.h>
