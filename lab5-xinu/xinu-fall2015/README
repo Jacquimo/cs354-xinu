@@ -39,7 +39,7 @@ initialize.c
 - all entries in the process table, including null process, are initialized to have a null callback function and 0 signal handler value
 
 alarmQueue.c
-- implemented enqueue, dequeue, getfirst, getlast, and getitem functions for the alarm queue
+- implemented enqueue, dequeue, getfirst, getlast, getitem, and newqueue functions for the alarm queue
 
 ainsertd.c
 - added functionality to time delay insert items into the alarm queue

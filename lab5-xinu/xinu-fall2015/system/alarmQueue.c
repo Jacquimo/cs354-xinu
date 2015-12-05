@@ -105,3 +105,30 @@ pid32	agetlast(
 	tail = aqueuetail(q);
 	return agetitem(aqueuetab[tail].qprev);
 }
+
+/*------------------------------------------------------------------------
+ *  anewqueue  -  Allocate and initialize a queue in the global queue table
+ *------------------------------------------------------------------------
+ */
+qid16	anewqueue(void)
+{
+	static qid16	nextqid=NPROC;	/* Next list in aqueuetab to use	*/
+	qid16		q;		/* ID of allocated queue 	*/
+
+	q = nextqid;
+	if (q > NAQENT) {		/* Check for table overflow	*/
+		return SYSERR;
+	}
+
+	nextqid += 2;			/* Increment index for next call*/
+
+	/* Initialize head and tail nodes to form an empty queue */
+
+	aqueuetab[aqueuehead(q)].qnext = aqueuetail(q);
+	aqueuetab[aqueuehead(q)].qprev = EMPTY;
+	aqueuetab[aqueuehead(q)].qkey  = MAXKEY;
+	aqueuetab[aqueuetail(q)].qnext = EMPTY;
+	aqueuetab[aqueuetail(q)].qprev = aqueuehead(q);
+	aqueuetab[aqueuetail(q)].qkey  = MINKEY;
+	return q;
+}
