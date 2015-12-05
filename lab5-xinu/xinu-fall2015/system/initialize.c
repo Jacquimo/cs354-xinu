@@ -138,6 +138,8 @@ static	void	sysinit()
 		// Edits made to code here ---------------
 		prptr->cbfun = NULL;
 		prptr->sighandler = 0;
+		prptr->prcpuused = 0;
+		prptr->usageLimit = 0;
 		// Edits made to code here ---------------
 	}
 
@@ -156,6 +158,8 @@ static	void	sysinit()
 	// Edits made to code here ---------------
 	prptr->cbfun = NULL;
 	prptr->sighandler = 0;
+	prptr->prcpuused = 0;
+	prptr->usageLimit = 0;
 	// Edits made to code here ---------------
 
 	

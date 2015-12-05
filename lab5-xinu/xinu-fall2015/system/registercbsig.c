@@ -28,6 +28,7 @@ syscall registercbsig(uint16 asig, int (*func) (void), uint32 optarg) {
 
 		case MYSIGXCPU:
 			prptr->sighandler = MYSIGXCPU;
+			prptr->usageLimit = prptr->prcpuused + optarg;
 			break;
 
 		default:

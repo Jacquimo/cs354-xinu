@@ -56,6 +56,8 @@ struct procent {		/* Entry in the process table		*/
 	// Edit to Code Starts -----------------
 	int (*cbfun)(void);	// pointer to callback function
 	uint16 sighandler;	// the type of signal which the callback function corresponds to
+	uint32 prcpuused;	// number of milliseconds process has run on the CPU
+	uint32 usageLimit;	// the amount of usage which invokes the callback function
 	// Edit to Code Ends   -----------------
 };
 

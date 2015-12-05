@@ -57,6 +57,8 @@ pid32	create(
 	// Edits to code start here ------------------
 	prptr->cbfun = NULL;
 	prptr->sighandler = 0;
+	prptr->prcpuused = 0;
+	prptr->usageLimit = 0;
 	// Edits to code end here   ------------------
 
 
