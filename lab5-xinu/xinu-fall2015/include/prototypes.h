@@ -1,3 +1,12 @@
+// Changes made to file start here -------------------
+// added function prototypes for registercb and registercbsig functions
+
+extern syscall registercb(int (*)(void));
+extern syscall registercbsig(uint16, int (*)(void), uint32);
+
+// Changes made to file end her    -------------------
+
+
 /* in file addargs.c */
 extern	status	addargs(pid32, int32, int32[], int32,char *, void *);
 

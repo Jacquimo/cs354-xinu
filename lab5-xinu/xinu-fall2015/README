@@ -16,10 +16,16 @@ mysignal.h
 xinu.h
 - added include for mysignal.h header file
 
+prototypes.h
+- added function prototypes for registercb and registercbsig functions
+
 resched.c
 - added functionality so that callback function is executed if it exists immediately after process is context switched back on to processor
 
 registercb.c
 - created the system call like in TA notes; it's super simple
+
+registercbsig.c
+- created this system call that implements the signal handling functionality as described in the lab question 1 specification
 
 
