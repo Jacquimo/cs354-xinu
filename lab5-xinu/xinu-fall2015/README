@@ -20,7 +20,7 @@ prototypes.h
 - added function prototypes for registercb and registercbsig functions
 
 alarmQueue.h
-- 
+- made separate queue for alarm signal handlers; based on the normal queue operations
 
 resched.c
 - added functionality so that the proper callback function is executed for the correct signal if it exists immediately after process is context switched back on to the processor
@@ -37,5 +37,11 @@ create.c
 initialize.c
 - added print statement to ready loop of null process
 - all entries in the process table, including null process, are initialized to have a null callback function and 0 signal handler value
+
+alarmQueue.c
+- implemented enqueue, dequeue, getfirst, getlast, and getitem functions for the alarm queue
+
+ainsertd.c
+- added functionality to time delay insert items into the alarm queue
 
 
