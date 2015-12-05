@@ -67,3 +67,6 @@ main.c
 kprintf.c
 - disabled interupts during function so that debugging output wouldn't be scrambled
 
+xsh_ps.c
+- added CPU usage information to the ps command
+

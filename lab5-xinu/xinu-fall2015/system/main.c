@@ -10,8 +10,19 @@ int myalrmhandler() {
 }
 
 int mycpuhandler() {
-	kprintf("PID: %d, stop being a CPU hog!\n", currpid);
+	kprintf("PID: %d, stop being a CPU hog!\n\n", currpid);
 	return OK;
+}
+
+void cpuIntensive() {
+	if (registercbsig(MYSIGXCPU, &mycpuhandler, 5000) != OK) {
+		kprintf("xcpu handler registration failed\n");
+		return;
+	}
+
+	int i = 0;
+	while (1)
+		i++;
 }
 
 process	main(void)
@@ -21,6 +32,9 @@ process	main(void)
 		return 1;
 	}
 
+	pid32 cpusignal = create((void*)cpuIntensive, INITSTK, INITPRIO, "CPU Intense Proc", 
+		0, NULL);
+	resume(cpusignal);
 
 	kprintf("\nHello World!\n");
 	kprintf("\nI'm the first XINU app and running function main() in system/main.c.\n");

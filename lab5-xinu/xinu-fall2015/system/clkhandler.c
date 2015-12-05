@@ -28,7 +28,7 @@ void	clkhandler()
 	// Handle processes waiting on an alarm by decrementing the front element
 	if (!aisempty(alarmq)) {
 		if ((--aqueuetab[afirstid(alarmq)].qkey) == 0 ) {
-			struct procent *prptr = &proctab[afirstid(alarmq)];
+			prptr = &proctab[afirstid(alarmq)];
 
 			// Verify that the callback funct. is still valid
 			if (prptr->sighandler == MYSIGALRM && prptr->cbfun != NULL) {
